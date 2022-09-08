@@ -4,19 +4,35 @@ const port = 3000
 
 const favMovieList = ['Scent of a Woman', 'Equalizer'];
 const today = new Date();
-const movieString = `${favMovieList[0]}, ${favMovieList[1]}` 
+const todayShorter = today.toLocaleDateString();
+const movieString = favMovieList.join(', ') 
+let queryParamNewMovie;
 
-console.log(movieString);
+let firstName = "Initial Value"
 
 app.get('/', (req, res) => {
     console.log('default route');
-  res.send(`Hello, John G. Today's date is ${today}.`);
+  res.send(`Hello, JG. Today is ${todayShorter}.`);
 })
 
 app.get('/list-movies', (req, res) => {
   console.log('list-movies route');
-res.send(`${movieString}`);
+  const movieString = favMovieList.join(', ') 
+  console.log(movieString);
+
+res.send(`Favorite Movies: ${movieString}`);
 })
+
+// Part 2 
+app.get('/add-movie', (req, res) => {
+console.log('add-movie route');
+queryParamNewMovie = req.query.newMovie
+favMovieList.push(queryParamNewMovie)
+console.log(favMovieList);
+console.log(queryParamNewMovie);
+res.json(`Add Movie: ${queryParamNewMovie}`)
+  })
+
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
